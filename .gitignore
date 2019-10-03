@@ -6,3 +6,6 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+
+# We use symlinks to automatically keep all our addons up to date
+addons/
