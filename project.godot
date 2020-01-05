@@ -8,9 +8,38 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "MarginContainer",
+"class": "ColorPalette",
+"language": "GDScript",
+"path": "res://addons/color_palette/interface/ColorPalette.gd"
+}, {
+"base": "Button",
+"class": "ColorSwatch",
+"language": "GDScript",
+"path": "res://addons/color_palette/interface/color_swatch/ColorSwatch.gd"
+}, {
+"base": "MarginContainer",
+"class": "Docker",
+"language": "GDScript",
+"path": "res://addons/gdquest_docker/interface/Docker.gd"
+}, {
+"base": "Control",
+"class": "RichEditorInterface",
+"language": "GDScript",
+"path": "res://addons/rich_text_editor/interface/RichEditorInterface.gd"
+}, {
+"base": "EditorPlugin",
+"class": "RichTextPlugin",
+"language": "GDScript",
+"path": "res://addons/rich_text_editor/RichTextEditor.gd"
+} ]
 _global_script_class_icons={
-
+"ColorPalette": "",
+"ColorSwatch": "",
+"Docker": "",
+"RichEditorInterface": "",
+"RichTextPlugin": ""
 }
 
 [application]
