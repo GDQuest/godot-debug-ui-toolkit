@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://demos/VariablesPanel/VariableControl.gd" type="Script" id=1]
+
+[node name="VariableControl" type="VBoxContainer"]
+margin_right = 78.0
+margin_bottom = 44.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 179.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_top = 5.0
+margin_right = 101.0
+margin_bottom = 19.0
+size_flags_horizontal = 2
+text = "Variable Control"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SpinBox" type="SpinBox" parent="HBoxContainer"]
+margin_left = 105.0
+margin_right = 179.0
+margin_bottom = 24.0
+align = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="HSlider" type="HSlider" parent="."]
+margin_top = 28.0
+margin_right = 179.0
+margin_bottom = 44.0
+__meta__ = {
+"_edit_lock_": true
+}
