@@ -1,6 +1,6 @@
 # Drawing utilities for tool scripts in the viewport or in-game visual debugging
 class_name DrawingUtils2D
-extends CanvasItem
+extends Node2D
 
 
 const DEFAULT_POINTS_COUNT := 32
