@@ -80,25 +80,26 @@ func draw_arc(
 	draw_arc(center, radius, angle_start, angle_end, point_count, color, width)
 
 
-func draw_elipse(
-			center: Vector2,
-			radius: float,
-			height: float,
-			color := Color.white,
-			use_outline := false,
-			outline_width := 4.0,
-			outline_color := Color.white,
-			elipse_path = ELIPSE_FILL.resource_path
+func draw_ellipse(
+		axis_major := 1.0,
+		axis_minor := 1.0,
+		center := Vector2.ZERO,
+		theta := 0.0,
+		colors := PoolColorArray([Color.white]),
+		use_outline := false,
+		outline_width := 4.0,
+		outline_color := Color.white,
+		resolution := DEFAULT_POINTS_COUNT
 	) -> void:
-	var elipse_mesh := load(elipse_path)
-	elipse_mesh.radius = radius * 0.5
-	elipse_mesh.height = height
-	var transform := Transform2D(Vector2.RIGHT, Vector2.DOWN, Vector2.ZERO)
-
-	if use_outline:
-		draw_elipse(center, radius + outline_width, height + outline_width, outline_color, false, outline_width, outline_color, ELIPSE_OUTLINE.resource_path)
-
-	draw_mesh(elipse_mesh, null, null, transform, color)
+	var points := PoolVector2Array()
+	for i in range(resolution + 1):
+		var angle := float(i) / resolution * 2.0 * PI
+		var point := center + Vector2(
+				axis_major * cos(angle),
+				axis_minor * sin(angle)
+			).rotated(theta)
+		points.append(point)
+	draw_polygon(points, colors)
 
 
 func draw_grid(
