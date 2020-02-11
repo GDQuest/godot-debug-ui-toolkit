@@ -7,7 +7,6 @@ const DEFAULT_POINTS_COUNT := 32
 
 
 func draw_circle_outline(
-			canvas_item: CanvasItem,
 			radius: float,
 			color := Color.white,
 			offset := Vector2.ZERO,
@@ -18,11 +17,10 @@ func draw_circle_outline(
 		var angle := 2 * PI * i / DEFAULT_POINTS_COUNT
 		var point := offset + Vector2(cos(angle) * radius, sin(angle) * radius)
 		points.append(point)
-	canvas_item.draw_polyline(points, color, thickness, true)
+	draw_polyline(points, color, thickness, true)
 
 
 func draw_triangle(
-			canvas_item: CanvasItem,
 			center: Vector2,
 			radius: float,
 			angle: float,
@@ -44,12 +42,11 @@ func draw_triangle(
 		point += center
 		points.append(point)
 	if use_outline:
-		draw_triangle(canvas_item, center, radius + outline_width, angle, outline_color)
-	canvas_item.draw_polygon(points, colors)
+		draw_triangle(center, radius + outline_width, angle, outline_color)
+	draw_polygon(points, colors)
 
 
 func draw_vector(
-			canvas_item: CanvasItem,
 			start: Vector2,
 			end: Vector2,
 			width: float,
@@ -60,14 +57,13 @@ func draw_vector(
 			outline_color := Color.white
 	) -> void:
 	if use_outline:
-		draw_vector(canvas_item, start, end, width + outline_width, tip_size + outline_width, outline_color)
+		draw_vector(start, end, width + outline_width, tip_size + outline_width, outline_color)
 	var angle = start.angle_to(end) + (PI / 2)
-	draw_triangle(canvas_item, end, tip_size, angle, color)
-	canvas_item.draw_line(start, end, color, width)
+	draw_triangle(end, tip_size, angle, color)
+	draw_line(start, end, color, width)
 
 
 func draw_arc(
-			canvas_item: CanvasItem,
 			center: Vector2,
 			radius: float,
 			angle_start: float,
@@ -80,12 +76,11 @@ func draw_arc(
 			outline_color := Color.white
 	) -> void:
 	if use_outline:
-		draw_arc(canvas_item, center, radius, angle_start, angle_end, point_count, outline_color, width + outline_width)
-	canvas_item.draw_arc(center, radius, angle_start, angle_end, point_count, color, width)
+		draw_arc(center, radius, angle_start, angle_end, point_count, outline_color, width + outline_width)
+	draw_arc(center, radius, angle_start, angle_end, point_count, color, width)
 
 
 func draw_elipse(
-			canvas_item: CanvasItem,
 			center: Vector2,
 			radius: float,
 			height: float,
@@ -101,13 +96,12 @@ func draw_elipse(
 	var transform := Transform2D(Vector2.RIGHT, Vector2.DOWN, Vector2.ZERO)
 
 	if use_outline:
-		draw_elipse(canvas_item, center, radius + outline_width, height + outline_width, outline_color, false, outline_width, outline_color, ELIPSE_OUTLINE.resource_path)
+		draw_elipse(center, radius + outline_width, height + outline_width, outline_color, false, outline_width, outline_color, ELIPSE_OUTLINE.resource_path)
 
-	canvas_item.draw_mesh(elipse_mesh, null, null, transform, color)
+	draw_mesh(elipse_mesh, null, null, transform, color)
 
 
 func draw_grid(
-			canvas_item: CanvasItem,
 			grid_origin: Vector2,
 			cell_size: Vector2,
 			grid_size: Vector2,
@@ -116,14 +110,13 @@ func draw_grid(
 	) -> void:
 	for cell in grid_size.x:
 		var rect_x := Rect2(grid_origin.x + (cell_size.x * cell), grid_origin.y, cell_size.x, cell_size.y)
-		canvas_item.draw_rect(rect_x, color, false, width)
+		draw_rect(rect_x, color, false, width)
 		for cell in grid_size.y:
 			var rect_y := Rect2(rect_x.position.x, rect_x.position.y + (cell_size.y * cell), cell_size.x, cell_size.y)
-			canvas_item.draw_rect(rect_y, color, false, width)
+			draw_rect(rect_y, color, false, width)
 
 
 func draw_grid_cell(
-			canvas_item: CanvasItem,
 			grid_origin: Vector2,
 			size: Vector2,
 			cell_coordinates: Vector2,
@@ -133,13 +126,12 @@ func draw_grid_cell(
 			outline_color := Color.white
 	) -> void:
 	if use_outline:
-		draw_grid_cell(canvas_item, grid_origin, size + Vector2(outline_width, outline_width), cell_coordinates, outline_color)
+		draw_grid_cell(grid_origin, size + Vector2(outline_width, outline_width), cell_coordinates, outline_color)
 	var rect := Rect2(grid_origin + (size * cell_coordinates), size)
-	canvas_item.draw_rect(rect, color, true)
+	draw_rect(rect, color, true)
 
 
 func draw_isometric_grid(
-			canvas_item: CanvasItem,
 			grid_origin: Vector2,
 			cell_size: Vector2,
 			grid_size: Vector2,
@@ -147,19 +139,18 @@ func draw_isometric_grid(
 			color := Color.white
 	) -> void:
 	var outer_rect := Rect2(grid_origin, cell_size * grid_size)
-	canvas_item.draw_rect(outer_rect, color, false, width)
+	draw_rect(outer_rect, color, false, width)
 	for cell in grid_size.x:
 		var rect_x := Rect2(grid_origin.x + (cell_size.x * cell), grid_origin.y, cell_size.x, cell_size.y)
-		canvas_item.draw_line(rect_x.position, rect_x.end, color, width)
-		canvas_item.draw_line(Vector2(rect_x.end.x, rect_x.position.y), Vector2(rect_x.position.x, rect_x.end.y), color, width)
+		draw_line(rect_x.position, rect_x.end, color, width)
+		draw_line(Vector2(rect_x.end.x, rect_x.position.y), Vector2(rect_x.position.x, rect_x.end.y), color, width)
 		for cell in grid_size.y:
 			var rect_y := Rect2(rect_x.position.x, rect_x.position.y + (cell_size.y * cell), cell_size.x, cell_size.y)
-			canvas_item.draw_line(rect_y.position, rect_y.end, color, width)
-			canvas_item.draw_line(Vector2(rect_y.end.x, rect_y.position.y), Vector2(rect_y.position.x, rect_y.end.y), color, width)
+			draw_line(rect_y.position, rect_y.end, color, width)
+			draw_line(Vector2(rect_y.end.x, rect_y.position.y), Vector2(rect_y.position.x, rect_y.end.y), color, width)
 
 
 func draw_isometric_cell(
-			canvas_item: CanvasItem,
 			grid_origin: Vector2,
 			cell_size: Vector2,
 			cell_coordinates: Vector2,
@@ -185,13 +176,12 @@ func draw_isometric_cell(
 		points.append(point)
 
 	if use_outline:
-		_draw_isometric_cell_outline(canvas_item, grid_origin, cell_size, cell_coordinates, outline_color, outline_width)
-	canvas_item.draw_polygon(points, colors)
+		_draw_isometric_cell_outline(grid_origin, cell_size, cell_coordinates, outline_color, outline_width)
+	draw_polygon(points, colors)
 
 
 # Method to workaround the cell outline drawing, it adds an extra offset based on the `outline_width`
 func _draw_isometric_cell_outline(
-			canvas_item: CanvasItem,
 			grid_origin: Vector2,
 			cell_size: Vector2,
 			cell: Vector2,
@@ -215,4 +205,4 @@ func _draw_isometric_cell_outline(
 		point.x += cell_size.x * 0.5
 		points.append(point)
 
-	canvas_item.draw_polygon(points, colors)
+	draw_polygon(points, colors)
