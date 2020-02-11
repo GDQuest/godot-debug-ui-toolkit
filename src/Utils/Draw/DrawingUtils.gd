@@ -63,7 +63,7 @@ func draw_vector(
 	draw_line(start, end, color, width)
 
 
-func draw_arc(
+func draw_circle_arc(
 			center: Vector2,
 			radius: float,
 			angle_start: float,
