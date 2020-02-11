@@ -100,6 +100,8 @@ func draw_ellipse(
 			).rotated(theta)
 		points.append(point)
 	draw_polygon(points, colors)
+	if use_outline:
+		draw_ellipse(axis_major, axis_minor, center, theta, colors, false, outline_width, outline_color, resolution)
 
 
 func draw_grid(
